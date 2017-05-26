@@ -33,7 +33,7 @@ class ArrayStore extends TaggableStore implements Store
      *
      * @param  string  $key
      * @param  mixed   $value
-     * @param  int     $minutes
+     * @param  float|int  $minutes
      * @return void
      */
     public function put($key, $value, $minutes)
@@ -50,7 +50,7 @@ class ArrayStore extends TaggableStore implements Store
      */
     public function increment($key, $value = 1)
     {
-        $this->storage[$key] = $this->storage[$key] + $value;
+        $this->storage[$key] = ((int) $this->storage[$key]) + $value;
 
         return $this->storage[$key];
     }

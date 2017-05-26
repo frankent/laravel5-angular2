@@ -189,6 +189,24 @@ class Filesystem
     }
 
     /**
+     * Create a hard link to the target file or directory.
+     *
+     * @param  string  $target
+     * @param  string  $link
+     * @return void
+     */
+    public function link($target, $link)
+    {
+        if (! windows_os()) {
+            return symlink($target, $link);
+        }
+
+        $mode = $this->isDirectory($target) ? 'J' : 'H';
+
+        exec("mklink /{$mode} \"{$link}\" \"{$target}\"");
+    }
+
+    /**
      * Extract the file name from a file path.
      *
      * @param  string  $path
@@ -285,6 +303,17 @@ class Filesystem
     public function isDirectory($directory)
     {
         return is_dir($directory);
+    }
+
+    /**
+     * Determine if the given path is readable.
+     *
+     * @param  string  $path
+     * @return bool
+     */
+    public function isReadable($path)
+    {
+        return is_readable($path);
     }
 
     /**
@@ -401,13 +430,9 @@ class Filesystem
     public function moveDirectory($from, $to, $overwrite = false)
     {
         if ($overwrite && $this->isDirectory($to)) {
-            $this->deleteDirectory($to);
-
-            $this->copyDirectory($from, $to);
-
-            $this->deleteDirectory($from);
-
-            return true;
+            if (! $this->deleteDirectory($to)) {
+                return false;
+            }
         }
 
         return @rename($from, $to) === true;
