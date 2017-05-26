@@ -79,12 +79,12 @@ elixir(function(mix) {
         'css/all.css',
         'css/maengud.css'
     ]);
-    
+
     mix.scripts([
         'vendor.js',
         'app.js'
     ], 'public/js/all.js', 'public/js');
-    
+
     mix.styles([
         'app.css',
         'maengud.css'

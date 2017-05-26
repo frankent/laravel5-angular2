@@ -31,7 +31,7 @@
         <div class='container' style="padding-top: 20px;">
 
             <my-app>Loading...</my-app>
-            
+
             <div class='row' style="padding-top: 20px;">
                 <div class='col-md-12 light_blue clearfix'>
                     <div style='float: left;'>
