@@ -15,6 +15,7 @@ require('laravel-elixir-webpack-ex');
 
 elixir(function(mix) {
     mix.sass('app.scss');
+    mix.styles('maengud.css');
 
     mix.webpack(
         {
@@ -73,8 +74,21 @@ elixir(function(mix) {
     mix.version([
         'css/app.css', 
         'js/app.js',
-        'js/vendor.js'
+        'js/vendor.js',
+        'js/all.js',
+        'css/all.css',
+        'css/maengud.css'
     ]);
+    
+    mix.scripts([
+        'vendor.js',
+        'app.js'
+    ], 'public/js/all.js', 'public/js');
+    
+    mix.styles([
+        'app.css',
+        'maengud.css'
+    ], 'public/css/all.css', 'public/css');
 
     mix.browserSync({
         files: [
