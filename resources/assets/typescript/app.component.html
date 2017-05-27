@@ -1,2 +1,26 @@
-<p>Laravel5 + Angular2 application</p>
-<router-outlet></router-outlet>
+<div class="header_menu">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <img src="/images/logo_white.png" class="img-responsive">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class='container' style="padding-top: 20px;">
+
+    <router-outlet></router-outlet>
+
+    <div class='row' style="padding-top: 20px;">
+        <div class='col-md-12 light_blue clearfix'>
+            <div style='float: left;'>
+                <img src="/images/footer_logo.png">
+            </div>
+            <div style='float: left; margin-left: 6px; font-size: 12px;'>
+                <p style='margin: 8px 0px 0px;'>(2014 - {{currentYear}}) by Regional Irrigation Office 1 of Royal Irrigation Department, Thailand</p>
+                <p style='margin: 0px;'>Brought to you by TryCatch&trade;</p>
+            </div>
+        </div>
+    </div>
+</div>
