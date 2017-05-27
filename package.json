@@ -1,5 +1,5 @@
 {
-  "name": "laravel5-angular2",
+  "name": "maengron-monitor",
   "version": "1.0.0",
   "scripts": {
     "prod": "gulp --production",

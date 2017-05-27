@@ -52,10 +52,13 @@ class Sync extends Command
      */
     public function handle()
     {
+        $endPointDamservice = config('endpoint.damService');
+        $endPointMTP = config('endpoint.mtpService');
+
         $currentTime = time();
-        $damService = 'http://127.0.0.1:81/pressure/sync?site_id=maengron_pressure';
-        $uploadDamService = 'http://127.0.0.1:81/pressure/sync';
-        $mtpSyncRef = 'http://log.ddnsthai.com/MaengronAPI/api/maengron/sync';
+        $damService = $endPointDamservice . '/pressure/sync?site_id=maengron_pressure';
+        $uploadDamService = $endPointDamservice . '/pressure/sync';
+        $mtpSyncRef = $endPointMTP . '/MaengronAPI/api/maengron/sync';
 
         // Get Sync Ref from MTP
         $mtpSync = $this->getRequest($mtpSyncRef);
@@ -80,7 +83,7 @@ class Sync extends Command
             do {
                 $syncNext = false;
                 $continueSync = date('Y-m-d 00:00:00', $datetimeFormat);
-                $mtpService = "http://log.ddnsthai.com/MaengronAPI/api/maengron/sync?timestamp={$continueSync}&limit=300&station=1";
+                $mtpService = $endPointMTP . "/MaengronAPI/api/maengron/sync?timestamp={$continueSync}&limit=300&station=1";
                 $rawsData = $this->getRequest($mtpService);
                 
                 if (empty($rawsData->data) && $currentTime > $datetimeFormat) {
