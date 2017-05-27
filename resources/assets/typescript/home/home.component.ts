@@ -29,7 +29,8 @@ export class HomeComponent implements OnInit {
 
 			this.options = {
 				chart: {
-					type: 'line'
+					type: 'line',
+					zoomType: 'x'
 				},
 				title: {
 					text: 'Realtime Tubidity'
@@ -42,6 +43,9 @@ export class HomeComponent implements OnInit {
 						text: 'NTU'
 					}
 				},
+				legend: {
+		            enabled: false
+		        },
 				plotOptions: {
 					line: {
 						dataLabels: {
@@ -53,7 +57,6 @@ export class HomeComponent implements OnInit {
 				series: [{
 					name: 'Maengron',
 					data: dataNTU,
-					// color: '#ff6961',
 					color: '#ff0000',
 					shadow: true
 				}]
