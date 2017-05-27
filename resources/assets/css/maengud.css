@@ -24,7 +24,7 @@ and open the template in the editor.
 }
 
 .menu_blue li.open.element_menu>a, .menu_blue li.element_menu>a:hover{
-    //color: #336699;
+    /*color: #336699;*/
     background-color: #336699;
 }
 
@@ -41,7 +41,7 @@ and open the template in the editor.
 }
 
 body{
-    //background: url('../../images/bg.jpg') no-repeat top center;
+    /*background: url('../../images/bg.jpg') no-repeat top center;*/
 }
 
 .quark_light{
@@ -80,3 +80,7 @@ body{
     -moz-border-radius: 4px;
     border-radius: 4px;
 }
+
+/*.highcharts-container {
+    width: 100% !important;
+}*/
