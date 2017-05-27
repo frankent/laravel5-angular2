@@ -1,25 +1,21 @@
-# FROM php:7.1.5-fpm-alpine
-FROM keittirat/nds-php7:latest
+FROM keittirat/nds-php7:debian-mongo
+
+RUN usermod -u 1000 www-data
+RUN groupmod -g 1000 www-data
+
+RUN cd /tmp && curl -sL https://deb.nodesource.com/setup_6.x | bash -
+
 WORKDIR /var/www/html
-RUN apk update --no-cache && apk add --no-cache \
-                nodejs \
-                git \
-                python2
-# RUN apk update --no-cache && apk add --no-cache \
-#                 nodejs \
-#                 git \
-#                 python
-
-# RUN docker-php-ext-install \
-# 			mcrypt \
-# 			zip \
-# 			gettext \
-# 			bz2 \
-# 			gd
-
+VOLUME /var/www/html
 COPY . /var/www/html
+
+RUN apt-get update && apt-get upgrade -y
+RUN apt-get install -y  git \
+                        nodejs \
+                        python 
+
 RUN npm update
 RUN npm install gulp -g
 RUN gulp --production
 
-CMD ["sh","/usr/bin/docker-start.sh"]
+CMD ["php-fpm","-F"]
