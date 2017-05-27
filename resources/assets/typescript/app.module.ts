@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, enableProdMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -11,6 +11,7 @@ import { FeatureService } from './features/shared/feature.service';
 import { HomeComponent } from './home/home.component';
 import { HomeService } from './services/home.service';
 
+enableProdMode();
 @NgModule({
   imports: [
     HttpModule,

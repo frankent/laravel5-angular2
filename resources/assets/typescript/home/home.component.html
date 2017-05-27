@@ -1,1 +1,16 @@
-<chart [options]="options" width="100%"></chart>
+<div class="row">
+    <div class="col-sm-7">
+        <chart [options]="optionsTubidity"></chart>
+    </div>
+    <div class="col-sm-5">
+        <canvas #radarMap width="900" height="835" style="width: 100%;" (click)="drawRadarMap()"></canvas>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <chart [options]="optionsRainHour"></chart>
+    </div>
+    <div class="col-sm-6">
+        <chart [options]="optionsHumidity"></chart>
+    </div>
+</div>

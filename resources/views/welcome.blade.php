@@ -7,7 +7,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title><?php echo isset($title) ? $title : "ระบบรายงานสภาพลุ่มน้ำ" ?> | ลุ่มแม่น้ำแม่งอน</title>
-
         @if (App::environment('production'))
             <link rel="stylesheet" type="text/css" href="{{ elixir('css/all.css') }}">
         @else
@@ -19,22 +18,9 @@
     <body>
 
         <my-app>
-            <div class="center-all">
-                <i class="fa fa-spinner fa-spin"></i>
-            </div>
-            <style>
-                html, body {
-                    width: 100%;
-                    height: 100%;
-                }
-
-                .center-all {
-                    padding: 50%;
-                    margin: -8px;
-                    width: 16px;
-                    height: 16px;
-                }
-            </style>
+            <section style="height: 100vh; text-align: center;">
+                <img src="/images/loading.webp">
+            </section>
         </my-app>
 
         @if (App::environment('production'))
