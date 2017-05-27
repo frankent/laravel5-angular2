@@ -9,11 +9,12 @@ WORKDIR /var/www/html
 VOLUME /var/www/html
 COPY . /var/www/html
 
+
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y  git \
                         nodejs \
                         python 
-
+RUN pwd && ls -lah
 RUN npm update
 RUN npm install gulp
 RUN npm install gulp -g
