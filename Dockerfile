@@ -1,18 +1,21 @@
-FROM php:7.1.5-fpm-alpine
-
+# FROM php:7.1.5-fpm-alpine
+FROM keittirat/nds-php7:latest
 WORKDIR /var/www/html
-RUN apk update --no-cache &&
-    apk add --no-cache \
+RUN apk update --no-cache && apk add --no-cache \
                 nodejs \
                 git \
-                python
+                python2
+# RUN apk update --no-cache && apk add --no-cache \
+#                 nodejs \
+#                 git \
+#                 python
 
-RUN docker-php-ext-install \
-			mcrypt \
-			zip \
-			gettext \
-			bz2 \
-			gd
+# RUN docker-php-ext-install \
+# 			mcrypt \
+# 			zip \
+# 			gettext \
+# 			bz2 \
+# 			gd
 
 COPY . /var/www/html
 RUN npm install && gulp --production
