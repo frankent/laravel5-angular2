@@ -18,8 +18,8 @@ RUN apk update --no-cache && apk add --no-cache \
 # 			gd
 
 COPY . /var/www/html
-RUN npm install
-RUN npm install gulp
+RUN npm update
+RUN npm install gulp -g
 RUN gulp --production
 
 CMD ["sh","/usr/bin/docker-start.sh"]
