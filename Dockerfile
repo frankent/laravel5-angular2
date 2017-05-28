@@ -2,7 +2,7 @@ FROM keittirat/nds-php7:latest
 RUN mkdir /web
 RUN mkdir /web/maengron
 
-COPY setup/crond /var/spool/cron/crontabs/root
+COPY setup/crond.txt /var/spool/cron/crontabs/root
 COPY . /web/maengron
 
 WORKDIR /web/maengron
