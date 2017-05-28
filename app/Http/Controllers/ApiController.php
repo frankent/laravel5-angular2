@@ -13,11 +13,11 @@ class ApiController extends Controller {
 
     public function getData() {
         $currentDate = time();
-        if (date('Y-m-d', $currentDate - 32400) === date('Y-m-d',$currentDate)) {
-            $start = Input::get('start', date('Y-m-d H:i:s', $currentDate - 32400));
-        } else {
-            $start = Input::get('start', date('Y-m-d 00:00:00', $currentDate));
-        }
+        // if (date('Y-m-d', $currentDate - 32400) === date('Y-m-d',$currentDate)) {
+        //     $start = Input::get('start', date('Y-m-d H:i:s', $currentDate - 32400));
+        // } else {
+        $start = Input::get('start', date('Y-m-d 00:00:00', $currentDate));
+        // }
 
         $end = Input::get('end', date('Y-m-d H:i:s',$currentDate));
 
