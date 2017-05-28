@@ -1051,7 +1051,7 @@ webpackJsonp([0],[
 	                    dataLabels: {
 	                        enabled: true
 	                    },
-	                    enableMouseTracking: false
+	                    enableMouseTracking: true
 	                }
 	            },
 	            series: [{

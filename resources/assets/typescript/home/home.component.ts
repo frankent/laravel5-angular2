@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
 					dataLabels: {
 						enabled: true
 					},
-					enableMouseTracking: false
+					enableMouseTracking: true
 				}
 			},
 			series: [{
