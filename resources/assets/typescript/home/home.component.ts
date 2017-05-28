@@ -113,21 +113,25 @@ export class HomeComponent implements OnInit {
 			testData.push([stream.data[key].timestamp, stream.data[key].Turbidity]);
 		});
 
-		const t = new timeseries.main(testData);
-		var coeffs = t.ARMaxEntropy({
-		    data:	t.data.slice(0,10)
-		});
-		
-		let forecast	= 0;	// Init the value at 0.
-		for (var i=0;i<coeffs.length;i++) {	// Loop through the coefficients
-		    forecast -= t.data[10-i][1]*coeffs[i];
+		try {
+			const t = new timeseries.main(testData);
+			var coeffs = t.ARMaxEntropy({
+			    data:	t.data.slice(0,10)
+			});
+			
+			let forecast	= 0;	// Init the value at 0.
+			for (var i=0;i<coeffs.length;i++) {	// Loop through the coefficients
+			    forecast -= t.data[10-i][1]*coeffs[i];
+			}
+	
+			stream.forcastNode.forEach((dateTime, index) => {
+				label.push(dateTime);
+				dataNTU.push(null);
+				forecastData.push((forecast + coeffs[index]));
+			});
+		} catch(err) {
+			console.log('ARMA:', err);
 		}
-
-		stream.forcastNode.forEach((dateTime, index) => {
-			label.push(dateTime);
-			dataNTU.push(null);
-			forecastData.push((forecast + coeffs[index]));
-		});
 
 		this.optionsTubidity = {
 			chart: {

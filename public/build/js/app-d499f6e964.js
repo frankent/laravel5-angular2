@@ -1084,19 +1084,24 @@ webpackJsonp([0],[
 	            }
 	            testData.push([stream.data[key].timestamp, stream.data[key].Turbidity]);
 	        });
-	        var t = new timeseries.main(testData);
-	        var coeffs = t.ARMaxEntropy({
-	            data: t.data.slice(0, 10)
-	        });
-	        var forecast = 0;
-	        for (var i = 0; i < coeffs.length; i++) {
-	            forecast -= t.data[10 - i][1] * coeffs[i];
+	        try {
+	            var t = new timeseries.main(testData);
+	            var coeffs = t.ARMaxEntropy({
+	                data: t.data.slice(0, 10)
+	            });
+	            var forecast_1 = 0;
+	            for (var i = 0; i < coeffs.length; i++) {
+	                forecast_1 -= t.data[10 - i][1] * coeffs[i];
+	            }
+	            stream.forcastNode.forEach(function (dateTime, index) {
+	                label.push(dateTime);
+	                dataNTU.push(null);
+	                forecastData.push((forecast_1 + coeffs[index]));
+	            });
 	        }
-	        stream.forcastNode.forEach(function (dateTime, index) {
-	            label.push(dateTime);
-	            dataNTU.push(null);
-	            forecastData.push((forecast + coeffs[index]));
-	        });
+	        catch (err) {
+	            console.log('ARMA:', err);
+	        }
 	        this.optionsTubidity = {
 	            chart: {
 	                type: 'line'
