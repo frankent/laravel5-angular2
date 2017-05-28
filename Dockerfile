@@ -16,9 +16,7 @@ RUN apt-get install -y  git \
                         python 
 RUN pwd && ls -lah
 RUN npm update
-RUN npm install gulp
 RUN npm install gulp -g
 RUN gulp --production
-# RUN gulp
 
 CMD ["php-fpm","-F"]
