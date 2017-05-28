@@ -15,12 +15,14 @@ services:
       - test-app
   test-app:
     container_name: 'php7-node-app'
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: keittirat/nds-maengron:latest
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
     volumes:
       # - ./www:/web/maengron
+      - ./setup/crond:/var/spool/cron/crontabs/root
       - ./log/app:/web/maengron/storage/logs
-    command: bash -c "chmod 0777 -R /web/maengron/storage && php-fpm7 -F"
+    command: bash -c "chmod 0777 -R /web/maengron/storage && chmod 0777 -R /web/maengron/bootstrap && crond && php-fpm7 -F"
     expose:
       - 9000
