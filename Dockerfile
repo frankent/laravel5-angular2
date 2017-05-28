@@ -4,10 +4,11 @@ RUN mkdir /web/maengron
 
 COPY setup/crond.txt /var/spool/cron/crontabs/root
 COPY . /web/maengron
+RUN rm -rf /web/maengron/setup
+
 
 WORKDIR /web/maengron
 VOLUME /web/maengron
-
 
 RUN apk update --no-cache
 RUN apk add --no-cache \

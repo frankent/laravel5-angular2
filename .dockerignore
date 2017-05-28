@@ -3,7 +3,5 @@ node_modules*
 .md
 Dockerfile
 docker*
-setup
-!setup/crond
 .idea
 .git*
