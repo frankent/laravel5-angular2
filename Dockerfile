@@ -1,7 +1,9 @@
 FROM keittirat/nds-php7:latest
-COPY . /var/www/html
-WORKDIR /var/www/html
-VOLUME /var/www/html
+RUN mkdir /web
+RUN mkdir /web/maengron
+COPY . /web/maengron
+WORKDIR /web/maengron
+VOLUME /web/maengron
 
 
 RUN apk update --no-cache
@@ -11,7 +13,7 @@ RUN apk add --no-cache \
                 git \
                 python2
 
-RUN cd /var/www/html
+RUN cd /web/maengron
 RUN npm install --only=production
 
 RUN apk del nodejs \
