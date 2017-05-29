@@ -14,6 +14,9 @@ export class HomeComponent implements OnInit {
 	optionsTubidity = {};
 	optionsRainHour = {};
 	optionsHumidity = {};
+	optionsTotalRain = {};
+	optionsWaterLv = {};
+	optionsTemperature = {};
 
 	@ViewChild("radarMap") canvasRef: ElementRef; 
 
@@ -28,16 +31,109 @@ export class HomeComponent implements OnInit {
         const dataList = this.homeService.getDataList();
         dataList.then((response) => {
 			this.drawTubidity(response);
-			this.drawRainPerHour(response);
+			this.drawRain(response);
+			this.drawWaterLv(response);
 			this.drawHumid(response);
+			this.drawTemperature(response);
         });
     }
 
-	drawRainPerHour(stream) {
+	drawTemperature(stream) {
+		const label = [];
+		const waterLv = [];
+		Object.keys(stream.data).forEach((unix) => {
+			label.push(stream.data[unix].timestamp);
+			waterLv.push(stream.data[unix].temperature);
+		});
+
+		this.optionsTemperature = {
+			chart: {
+				type: 'line',
+				zoomType: 'x'
+			},
+			title: {
+				text: 'Temperature'
+			},
+			xAxis: {
+				categories: label
+			},
+			yAxis: {
+				title: {
+					text: '°C'
+				}
+			},
+			legend: {
+				enabled: true
+			},
+			plotOptions: {
+				line: {
+					dataLabels: {
+						enabled: true
+					},
+					enableMouseTracking: true
+				}
+			},
+			series: [{
+				name: 'Maengron - Temperature',
+				data: waterLv,
+				color: 'brown',
+				shadow: true
+			}]
+		};
+	}
+
+	drawWaterLv(stream) {
+		const label = [];
+		const waterLv = [];
+		Object.keys(stream.data).forEach((unix) => {
+			label.push(stream.data[unix].timestamp);
+			waterLv.push(stream.data[unix].water_level);
+		});
+
+		this.optionsWaterLv = {
+			chart: {
+				type: 'line',
+				zoomType: 'x'
+			},
+			title: {
+				text: 'Water Level'
+			},
+			xAxis: {
+				categories: label
+			},
+			yAxis: {
+				title: {
+					text: 'm'
+				}
+			},
+			legend: {
+				enabled: true
+			},
+			plotOptions: {
+				line: {
+					dataLabels: {
+						enabled: true
+					},
+					enableMouseTracking: true
+				}
+			},
+			series: [{
+				name: 'Maengron - Water Level',
+				data: waterLv,
+				color: 'brown',
+				shadow: true
+			}]
+		};
+	}
+
+	drawRain(stream) {
 		const allUnix = [];
 		const rainDiffHour = [];
 		const rainDiff30Min = [];
 		const label = [];
+		
+		const labelTotalRain = [];
+		const totalRainData = [];
 		Object.keys(stream.data).forEach((unix) => {
 			allUnix.push(unix);
 		});
@@ -51,11 +147,17 @@ export class HomeComponent implements OnInit {
 				rainDiff30Min.push(currentData.total_rain - stream.data[allUnix[index + 2]].total_rain);
 				label.push(currentData.timestamp);
 			}
+
+			labelTotalRain.push(stream.data[unix].timestamp);
+			totalRainData.push(stream.data[unix].total_rain);
 		});
 
 		label.reverse();
 		rainDiff30Min.reverse();
 		rainDiffHour.reverse();
+		//---
+		labelTotalRain.reverse();
+		totalRainData.reverse();
 
 		this.optionsRainHour = {
 			chart: {
@@ -93,6 +195,41 @@ export class HomeComponent implements OnInit {
 				name: 'Maengron - Rain 30 Min',
 				data: rainDiff30Min,
 				color: 'green',
+				shadow: true
+			}]
+		};
+
+		this.optionsTotalRain = {
+			chart: {
+				type: 'line',
+				zoomType: 'x'
+			},
+			title: {
+				text: 'Total Rain'
+			},
+			xAxis: {
+				categories: labelTotalRain
+			},
+			yAxis: {
+				title: {
+					text: 'mm.'
+				}
+			},
+			legend: {
+				enabled: true
+			},
+			plotOptions: {
+				line: {
+					dataLabels: {
+						enabled: true
+					},
+					enableMouseTracking: true
+				}
+			},
+			series: [{
+				name: 'Maengron - Total Rain',
+				data: totalRainData,
+				color: 'blue',
 				shadow: true
 			}]
 		};

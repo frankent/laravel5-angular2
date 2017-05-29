@@ -8,9 +8,22 @@
 </div>
 <div class="row">
     <div class="col-sm-6">
-        <chart [options]="optionsRainHour"></chart>
+        <chart [options]="optionsTotalRain"></chart>
     </div>
     <div class="col-sm-6">
+        <chart [options]="optionsRainHour"></chart>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
         <chart [options]="optionsHumidity"></chart>
+    </div>
+    <div class="col-sm-6">
+        <chart [options]="optionsWaterLv"></chart>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <chart [options]="optionsTemperature"></chart>
     </div>
 </div>

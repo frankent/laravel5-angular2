@@ -995,6 +995,9 @@ webpackJsonp([0],[
 	        this.optionsTubidity = {};
 	        this.optionsRainHour = {};
 	        this.optionsHumidity = {};
+	        this.optionsTotalRain = {};
+	        this.optionsWaterLv = {};
+	        this.optionsTemperature = {};
 	    }
 	    HomeComponent.prototype.ngOnInit = function () {
 	        this.getData();
@@ -1005,15 +1008,103 @@ webpackJsonp([0],[
 	        var dataList = this.homeService.getDataList();
 	        dataList.then(function (response) {
 	            _this.drawTubidity(response);
-	            _this.drawRainPerHour(response);
+	            _this.drawRain(response);
+	            _this.drawWaterLv(response);
 	            _this.drawHumid(response);
+	            _this.drawTemperature(response);
 	        });
 	    };
-	    HomeComponent.prototype.drawRainPerHour = function (stream) {
+	    HomeComponent.prototype.drawTemperature = function (stream) {
+	        var label = [];
+	        var waterLv = [];
+	        Object.keys(stream.data).forEach(function (unix) {
+	            label.push(stream.data[unix].timestamp);
+	            waterLv.push(stream.data[unix].temperature);
+	        });
+	        this.optionsTemperature = {
+	            chart: {
+	                type: 'line',
+	                zoomType: 'x'
+	            },
+	            title: {
+	                text: 'Temperature'
+	            },
+	            xAxis: {
+	                categories: label
+	            },
+	            yAxis: {
+	                title: {
+	                    text: '°C'
+	                }
+	            },
+	            legend: {
+	                enabled: true
+	            },
+	            plotOptions: {
+	                line: {
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    enableMouseTracking: true
+	                }
+	            },
+	            series: [{
+	                    name: 'Maengron - Temperature',
+	                    data: waterLv,
+	                    color: 'brown',
+	                    shadow: true
+	                }]
+	        };
+	    };
+	    HomeComponent.prototype.drawWaterLv = function (stream) {
+	        var label = [];
+	        var waterLv = [];
+	        Object.keys(stream.data).forEach(function (unix) {
+	            label.push(stream.data[unix].timestamp);
+	            waterLv.push(stream.data[unix].water_level);
+	        });
+	        this.optionsWaterLv = {
+	            chart: {
+	                type: 'line',
+	                zoomType: 'x'
+	            },
+	            title: {
+	                text: 'Water Level'
+	            },
+	            xAxis: {
+	                categories: label
+	            },
+	            yAxis: {
+	                title: {
+	                    text: 'm'
+	                }
+	            },
+	            legend: {
+	                enabled: true
+	            },
+	            plotOptions: {
+	                line: {
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    enableMouseTracking: true
+	                }
+	            },
+	            series: [{
+	                    name: 'Maengron - Water Level',
+	                    data: waterLv,
+	                    color: 'brown',
+	                    shadow: true
+	                }]
+	        };
+	    };
+	    HomeComponent.prototype.drawRain = function (stream) {
 	        var allUnix = [];
 	        var rainDiffHour = [];
 	        var rainDiff30Min = [];
 	        var label = [];
+	        var labelTotalRain = [];
+	        var totalRainData = [];
 	        Object.keys(stream.data).forEach(function (unix) {
 	            allUnix.push(unix);
 	        });
@@ -1026,10 +1117,14 @@ webpackJsonp([0],[
 	                rainDiff30Min.push(currentData.total_rain - stream.data[allUnix[index + 2]].total_rain);
 	                label.push(currentData.timestamp);
 	            }
+	            labelTotalRain.push(stream.data[unix].timestamp);
+	            totalRainData.push(stream.data[unix].total_rain);
 	        });
 	        label.reverse();
 	        rainDiff30Min.reverse();
 	        rainDiffHour.reverse();
+	        labelTotalRain.reverse();
+	        totalRainData.reverse();
 	        this.optionsRainHour = {
 	            chart: {
 	                type: 'line',
@@ -1066,6 +1161,40 @@ webpackJsonp([0],[
 	                    name: 'Maengron - Rain 30 Min',
 	                    data: rainDiff30Min,
 	                    color: 'green',
+	                    shadow: true
+	                }]
+	        };
+	        this.optionsTotalRain = {
+	            chart: {
+	                type: 'line',
+	                zoomType: 'x'
+	            },
+	            title: {
+	                text: 'Total Rain'
+	            },
+	            xAxis: {
+	                categories: labelTotalRain
+	            },
+	            yAxis: {
+	                title: {
+	                    text: 'mm.'
+	                }
+	            },
+	            legend: {
+	                enabled: true
+	            },
+	            plotOptions: {
+	                line: {
+	                    dataLabels: {
+	                        enabled: true
+	                    },
+	                    enableMouseTracking: true
+	                }
+	            },
+	            series: [{
+	                    name: 'Maengron - Total Rain',
+	                    data: totalRainData,
+	                    color: 'blue',
 	                    shadow: true
 	                }]
 	        };
@@ -6354,7 +6483,7 @@ webpackJsonp([0],[
 /* 87 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div class=\"row\">\r\n    <div class=\"col-sm-7\">\r\n        <chart [options]=\"optionsTubidity\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-5\">\r\n        <canvas #radarMap width=\"900\" height=\"835\" style=\"width: 100%;\" (click)=\"drawRadarMap()\"></canvas>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsRainHour\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsHumidity\"></chart>\r\n    </div>\r\n</div>"
+	module.exports = "<div class=\"row\">\r\n    <div class=\"col-sm-7\">\r\n        <chart [options]=\"optionsTubidity\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-5\">\r\n        <canvas #radarMap width=\"900\" height=\"835\" style=\"width: 100%;\" (click)=\"drawRadarMap()\"></canvas>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsTotalRain\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsRainHour\"></chart>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsHumidity\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsWaterLv\"></chart>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsTemperature\"></chart>\r\n    </div>\r\n</div>"
 
 /***/ }),
 /* 88 */
