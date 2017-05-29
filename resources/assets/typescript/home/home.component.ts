@@ -142,7 +142,6 @@ export class HomeComponent implements OnInit {
 		allUnix.forEach((unix, index) => {
 			if (index + 4 < allUnix.length) {
 				const currentData = stream.data[unix];
-				currentData.rainDiffHourHour = currentData.total_rain - stream.data[allUnix[index + 4]].total_rain;
 				rainDiffHour.push(currentData.total_rain - stream.data[allUnix[index + 4]].total_rain);
 				rainDiff30Min.push(currentData.total_rain - stream.data[allUnix[index + 2]].total_rain);
 				label.push(currentData.timestamp);
