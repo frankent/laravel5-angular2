@@ -1027,6 +1027,9 @@ webpackJsonp([0],[
 	                label.push(currentData.timestamp);
 	            }
 	        });
+	        label.reverse();
+	        rainDiff30Min.reverse();
+	        rainDiffHour.reverse();
 	        this.optionsRainHour = {
 	            chart: {
 	                type: 'line',

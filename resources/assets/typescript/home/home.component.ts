@@ -53,6 +53,10 @@ export class HomeComponent implements OnInit {
 			}
 		});
 
+		label.reverse();
+		rainDiff30Min.reverse();
+		rainDiffHour.reverse();
+
 		this.optionsRainHour = {
 			chart: {
 				type: 'line',
