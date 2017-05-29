@@ -1318,7 +1318,7 @@ webpackJsonp([0],[
 	    };
 	    HomeComponent.prototype.drawRadarMap = function () {
 	        console.log('Radar Map: Update');
-	        var strDataURI = "http://tiwrm.haii.or.th/TyphoonTracking/rainMaker/OKI/rm_OKI_lastest.gif";
+	        var strDataURI = "http://weather.tmd.go.th/omk/omk240_latest.png";
 	        var ctx = this.canvasRef.nativeElement.getContext('2d');
 	        var img = new Image;
 	        img.onload = function () {

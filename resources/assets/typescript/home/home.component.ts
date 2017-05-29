@@ -362,7 +362,8 @@ export class HomeComponent implements OnInit {
 
 	drawRadarMap() {
 		console.log('Radar Map: Update');
-		const strDataURI = "http://tiwrm.haii.or.th/TyphoonTracking/rainMaker/OKI/rm_OKI_lastest.gif";
+		// const strDataURI = "http://tiwrm.haii.or.th/TyphoonTracking/rainMaker/OKI/rm_OKI_lastest.gif";
+		const strDataURI = "http://weather.tmd.go.th/omk/omk240_latest.png";
 		let ctx: CanvasRenderingContext2D = this.canvasRef.nativeElement.getContext('2d');
 		let img = new Image;
 		img.onload = function(){
