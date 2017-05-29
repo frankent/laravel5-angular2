@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { HomeService } from "../services/home.service";
+import { HomeService } from '../services/home.service';
+import { calculateHumidity } from '../libraries/calculateModule';
 const timeseries = require('timeseries-analysis');
 
 @Component({
@@ -275,7 +276,8 @@ export class HomeComponent implements OnInit {
 
 		this.optionsTubidity = {
 			chart: {
-				type: 'line'
+				type: 'line',
+				zoomType: 'x'
 			},
 			title: {
 				text: 'Realtime Tubidity'
@@ -319,12 +321,13 @@ export class HomeComponent implements OnInit {
 
 		Object.keys(stream.data).forEach((key) => {
 			label.push(stream.data[key].timestamp);
-			humid.push(stream.data[key].Humidity);
+			humid.push(calculateHumidity(stream.data[key].Humidity));
 		});
 
 		this.optionsHumidity = {
 			chart: {
-				type: 'line'
+				type: 'line',
+				zoomType: 'x'
 			},
 			title: {
 				text: 'Realtime Humidity'
@@ -334,7 +337,7 @@ export class HomeComponent implements OnInit {
 			},
 			yAxis: {
 				title: {
-					text: 'g.'
+					text: '%'
 				}
 			},
 			legend: {

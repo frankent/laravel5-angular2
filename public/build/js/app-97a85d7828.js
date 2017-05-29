@@ -43,7 +43,7 @@ webpackJsonp([0],[
 	var forms_1 = __webpack_require__(26);
 	var angular2_highcharts_1 = __webpack_require__(30);
 	var app_routing_1 = __webpack_require__(42);
-	var app_component_1 = __webpack_require__(88);
+	var app_component_1 = __webpack_require__(89);
 	var feature_list_component_1 = __webpack_require__(73);
 	var feature_component_1 = __webpack_require__(78);
 	var feature_service_1 = __webpack_require__(75);
@@ -60,7 +60,7 @@ webpackJsonp([0],[
 	        imports: [
 	            http_1.HttpModule,
 	            platform_browser_1.BrowserModule,
-	            angular2_highcharts_1.ChartModule.forRoot(__webpack_require__(90)),
+	            angular2_highcharts_1.ChartModule.forRoot(__webpack_require__(91)),
 	            forms_1.FormsModule,
 	            app_routing_1.routing
 	        ],
@@ -988,7 +988,8 @@ webpackJsonp([0],[
 	Object.defineProperty(exports, "__esModule", { value: true });
 	var core_1 = __webpack_require__(3);
 	var home_service_1 = __webpack_require__(81);
-	var timeseries = __webpack_require__(83);
+	var calculateModule_1 = __webpack_require__(83);
+	var timeseries = __webpack_require__(84);
 	var HomeComponent = (function () {
 	    function HomeComponent(homeService) {
 	        this.homeService = homeService;
@@ -1235,7 +1236,8 @@ webpackJsonp([0],[
 	        }
 	        this.optionsTubidity = {
 	            chart: {
-	                type: 'line'
+	                type: 'line',
+	                zoomType: 'x'
 	            },
 	            title: {
 	                text: 'Realtime Tubidity'
@@ -1277,11 +1279,12 @@ webpackJsonp([0],[
 	        var label = [];
 	        Object.keys(stream.data).forEach(function (key) {
 	            label.push(stream.data[key].timestamp);
-	            humid.push(stream.data[key].Humidity);
+	            humid.push(calculateModule_1.calculateHumidity(stream.data[key].Humidity));
 	        });
 	        this.optionsHumidity = {
 	            chart: {
-	                type: 'line'
+	                type: 'line',
+	                zoomType: 'x'
 	            },
 	            title: {
 	                text: 'Realtime Humidity'
@@ -1291,7 +1294,7 @@ webpackJsonp([0],[
 	            },
 	            yAxis: {
 	                title: {
-	                    text: 'g.'
+	                    text: '%'
 	                }
 	            },
 	            legend: {
@@ -1337,7 +1340,7 @@ webpackJsonp([0],[
 	HomeComponent = __decorate([
 	    core_1.Component({
 	        styles: ["\n      chart {\n        display: block;\n      }\n    "],
-	        template: __webpack_require__(87)
+	        template: __webpack_require__(88)
 	    }),
 	    __metadata("design:paramtypes", [home_service_1.HomeService])
 	], HomeComponent);
@@ -1384,10 +1387,25 @@ webpackJsonp([0],[
 /***/ }),
 /* 82 */,
 /* 83 */
+/***/ (function(module, exports) {
+
+	"use strict";
+	Object.defineProperty(exports, "__esModule", { value: true });
+	var maxHumidity = 1600;
+	exports.calculateHumidity = function (rawsValue) {
+	    return (rawsValue / maxHumidity) * 100;
+	};
+	exports.calculateFlowRate = function (waterLv) {
+	    return true;
+	};
+
+
+/***/ }),
+/* 84 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var 			_ = __webpack_require__(84);
-	var gimage 		= __webpack_require__(85).charts;
+	var 			_ = __webpack_require__(85);
+	var gimage 		= __webpack_require__(86).charts;
 	
 	var timeseries = function(data, options) {
 		/*
@@ -2680,7 +2698,7 @@ webpackJsonp([0],[
 	exports.version		= "1.0.11";
 
 /***/ }),
-/* 84 */
+/* 85 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -4234,10 +4252,10 @@ webpackJsonp([0],[
 
 
 /***/ }),
-/* 85 */
+/* 86 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	var _			= __webpack_require__(86);
+	var _			= __webpack_require__(87);
 	
 	
 	
@@ -4925,7 +4943,7 @@ webpackJsonp([0],[
 	exports.colors = Rainbow;
 
 /***/ }),
-/* 86 */
+/* 87 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -6479,13 +6497,13 @@ webpackJsonp([0],[
 
 
 /***/ }),
-/* 87 */
+/* 88 */
 /***/ (function(module, exports) {
 
-	module.exports = "<div class=\"row\">\r\n    <div class=\"col-sm-7\">\r\n        <chart [options]=\"optionsTubidity\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-5\">\r\n        <canvas #radarMap width=\"900\" height=\"835\" style=\"width: 100%;\" (click)=\"drawRadarMap()\"></canvas>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsTotalRain\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsRainHour\"></chart>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsHumidity\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsWaterLv\"></chart>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsTemperature\"></chart>\r\n    </div>\r\n</div>"
+	module.exports = "<div class=\"row\">\r\n    <div class=\"col-sm-7\">\r\n        <chart [options]=\"optionsTubidity\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-5\">\r\n        <canvas #radarMap width=\"900\" height=\"835\" style=\"max-width: 100%;\" (click)=\"drawRadarMap()\"></canvas>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsTotalRain\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsRainHour\"></chart>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsHumidity\"></chart>\r\n    </div>\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsWaterLv\"></chart>\r\n    </div>\r\n</div>\r\n<div class=\"row\">\r\n    <div class=\"col-sm-6\">\r\n        <chart [options]=\"optionsTemperature\"></chart>\r\n    </div>\r\n</div>"
 
 /***/ }),
-/* 88 */
+/* 89 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(__decorate) {"use strict";
@@ -6504,7 +6522,7 @@ webpackJsonp([0],[
 	AppComponent = __decorate([
 	    core_1.Component({
 	        selector: 'my-app',
-	        template: __webpack_require__(89)
+	        template: __webpack_require__(90)
 	    })
 	], AppComponent);
 	exports.AppComponent = AppComponent;
@@ -6512,13 +6530,13 @@ webpackJsonp([0],[
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(24)))
 
 /***/ }),
-/* 89 */
+/* 90 */
 /***/ (function(module, exports) {
 
 	module.exports = "<div class=\"header_menu\">\r\n    <div class=\"container\">\r\n        <div class=\"row\">\r\n            <div class=\"col-md-12\">\r\n                <img src=\"/images/logo_white.png\" class=\"img-responsive\">\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n<div class='container' style=\"padding-top: 20px;\">\r\n\r\n    <router-outlet></router-outlet>\r\n\r\n    <div class='row' style=\"padding-top: 20px;\">\r\n        <div class='col-md-12 light_blue clearfix'>\r\n            <div style='float: left;'>\r\n                <img src=\"/images/footer_logo.png\">\r\n            </div>\r\n            <div style='float: left; margin-left: 6px; font-size: 12px;'>\r\n                <p style='margin: 8px 0px 0px;'>(2014 - {{currentYear}}) by Regional Irrigation Office 1 of Royal Irrigation Department, Thailand</p>\r\n                <p style='margin: 0px;'>Brought to you by TryCatch&trade;</p>\r\n            </div>\r\n        </div>\r\n    </div>\r\n</div>\r\n"
 
 /***/ }),
-/* 90 */
+/* 91 */
 /***/ (function(module, exports) {
 
 	/*

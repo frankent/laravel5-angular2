@@ -19,7 +19,7 @@
 
         <my-app>
             <section style="height: 100vh; text-align: center;">
-                <img src="/images/loading.webp">
+                <img src="/images/loading.webp" style="max-width: 100%; display: inline-block;">
             </section>
         </my-app>
 

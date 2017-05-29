@@ -11,23 +11,38 @@ class ApiController extends Controller {
         $this->client = new Client();
     }
 
-    public function getData() {
-        $currentDate = time();
-        // if (date('Y-m-d', $currentDate - 32400) === date('Y-m-d',$currentDate)) {
-        //     $start = Input::get('start', date('Y-m-d H:i:s', $currentDate - 32400));
-        // } else {
-        $start = Input::get('start', date('Y-m-d 00:00:00', $currentDate));
-        // }
-
-        $end = Input::get('end', date('Y-m-d H:i:s',$currentDate));
+    private function retrieveData($currentDate) {
+        $start = date('Y-m-d 00:00:00', $currentDate);
+        $end = date('Y-m-d 23:59:59', $currentDate);
 
         $endPoint = config('endpoint.damService') . "/pressure?site_id=maengron_pressure&start={$start}&end={$end}";
         $resp = $this->client->request('GET', $endPoint);
         $stationData = $resp->getBody();
         $data = (string) $stationData;
-        $data = json_decode($data, true);
+        return json_decode($data, true);
+    }
 
-        $last = last($data['result']['stream']);
+    public function getData() {
+        $currentDate = time();
+
+        // Yesterday
+        $yesterdayData = $this->retrieveData($currentDate - 86400);
+
+        // Today
+        $todayData = $this->retrieveData($currentDate);
+
+        $allData = array_merge($yesterdayData['result']['stream'], $todayData['result']['stream']);
+        ksort($allData);
+        $allData = array_slice($allData, -96, 96, true);
+
+        $first = array_first($allData, function($v, $k) {
+            return $v['unix'];
+        });
+
+        $last = array_last($allData, function($v, $k) {
+            return $v['unix'];
+        });
+
         $forcastLabel = [];
         for($i = 0; $i < 5; $i++) {
             $margin = 60 * 15 * ($i + 1);
@@ -36,12 +51,12 @@ class ApiController extends Controller {
 
         return array(
             'range' => array(
-                'start' => $start,
-                'end' => $end
+                'start' => $first['timestamp'],
+                'end' => $last['timestamp']
             ),
             'forcastNode' => $forcastLabel,
-            'total' => count($data['result']['stream']),
-            'data' => $data['result']['stream']
+            'total' => count($allData),
+            'data' => $allData
         );
     }
 }
