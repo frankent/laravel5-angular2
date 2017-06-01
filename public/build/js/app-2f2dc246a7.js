@@ -1001,6 +1001,13 @@ webpackJsonp([0],[
 	        this.optionsTemperature = {};
 	    }
 	    HomeComponent.prototype.ngOnInit = function () {
+	        var _this = this;
+	        this.syncData();
+	        setInterval(function () {
+	            _this.syncData();
+	        }, 60000);
+	    };
+	    HomeComponent.prototype.syncData = function () {
 	        this.getData();
 	        this.drawRadarMap();
 	    };
