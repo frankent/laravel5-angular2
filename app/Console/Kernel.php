@@ -14,7 +14,8 @@ class Kernel extends ConsoleKernel
      */
     protected $commands = [
         // Commands\Inspire::class,
-        Commands\Sync::class
+        Commands\Sync::class,
+        Commands\CloudDetection::class
     ];
 
     /**
