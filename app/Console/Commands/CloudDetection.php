@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+
 // import the Intervention Image Manager Class
 
 
@@ -29,7 +30,6 @@ class CloudDetection extends Command {
      */
     public function __construct() {
         parent::__construct();
-        
     }
 
     /**
@@ -57,15 +57,15 @@ class CloudDetection extends Command {
             return $return;
         }
 
-        function findcloud() {
+        function findcloud(&$detectCloud,&$perArea) {
             $img_path = public_path() . "\images\image.png";
             $img = imagecreatefrompng($img_path);
 
 // Size of interesting Area 
-            $x1 = 330;
-            $y1 = 13;
-            $x2 = 788;
-            $y2 = 280;
+            $x1 = 574;
+            $y1 = 23;
+            $x2 = 588;
+            $y2 = 37;
             $sizeAreaX = $x2 - $x1 + 1;
             $sizeAreaY = $y2 - $y1 + 1;
 
@@ -78,6 +78,10 @@ class CloudDetection extends Command {
             $interestArea = imagecreatetruecolor($sizeAreaX, $sizeAreaY);
             $interestAreaReal = imagecreatetruecolor($sizeAreaX, $sizeAreaY);
 
+//Detect Cloud 
+            $detectCloud = false;
+            
+
 // Thresholding RGB in interesting range
             for ($i = 0; $i < $sizeAreaX; $i++) {
                 for ($j = 0; $j < $sizeAreaY; $j++) {
@@ -89,91 +93,125 @@ class CloudDetection extends Command {
                     $rgbR = imagecolorallocate($interestAreaReal, $r, $g, $b);
                     imagesetpixel($interestAreaReal, $i, $j, $rgbR);
 
-                    if (($r >= 0 && $r <= 30) && ($g >= 0 && $g <= 20) && ($b >= 230 && $b <= 255)) { // Blue(-31.5)
+                    if (($r >= 0 && $r <= 0) && ($g >= 0 && $g <= 0) && ($b >= 255 && $b <= 255)) { // Blue(-31.5)
                         $r = 0;
                         $g = 0;
                         $b = 255;
                         $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 0 && $r <= 45) && ($g >= 228 && $g <= 255) && ($b >= 218 && $b <= 255)) { // Cyan(-10.0)
-                        $r = 20;
-                        $g = 240;
-                        $b = 240;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 0 && $r <= 100) && ($g >= 200 && $g <= 255) && ($b >= 100 && $b <= 160)) { // Green(10.0)
-                        $r = 12;
-                        $g = 245;
-                        $b = 140;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 0 && $r <= 100) && ($g >= 200 && $g <= 255) && ($b >= 0 && $b <= 80)) { // Green(13.0)
-                        $r = 1;
-                        $g = 255;
-                        $b = 0;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 0 && $r <= 100) && ($g >= 100 && $g <= 200) && ($b >= 0 && $b <= 81)) { // Green(18.0)
+                        $detectCloud = true;
+                        $perArea[0] ++;
+                    } elseif (($r >= 0 && $r <= 0) && ($g >= 255 && $g <= 255) && ($b >= 255 && $b <= 255)) { // Cyan(-10.0)
                         $r = 0;
-                        $g = 179;
-                        $b = 0;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 0 && $r <= 60) && ($g >= 130 && $g <= 200) && ($b >= 0 && $b <= 180)) { // Green(23.0)
-                        $r = 6;
-                        $g = 156;
-                        $b = 57;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 197 && $r <= 255) && ($g >= 205 && $g <= 255) && ($b >= 0 && $b <= 100)) { // Yellow(28.0)
-                        $r = 247;
                         $g = 255;
-                        $b = 8;
+                        $b = 255;
                         $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 200 && $r <= 255) && ($g >= 160 && $g <= 225) && ($b >= 0 && $b <= 75)) { // Yellow(33.0)
-                        $r = 255;
-                        $g = 197;
-                        $b = 17;
+                        $detectCloud = true;
+                        $perArea[1] ++;
+                    } elseif (($r >= 0 && $r <= 0) && ($g >= 255 && $g <= 255) && ($b >= 128 && $b <= 128)) { // Green(10.0)
+                        $r = 0;
+                        $g = 255;
+                        $b = 128;
                         $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 200 && $r <= 255) && ($g >= 130 && $g <= 220) && ($b >= 0 && $b <= 70)) { // Orange(38.0)
-                        $r = 249;
-                        $g = 172;
-                        $b = 4;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 225 && $r <= 255) && ($g >= 50 && $g <= 121) && ($b >= 0 && $b <= 120)) { // Orange(43.0)
-                        $r = 255;
-                        $g = 81;
+                        $detectCloud = true;
+                        $perArea[2] ++;
+                    } elseif (($r >= 0 && $r <= 0) && ($g >= 255 && $g <= 255) && ($b >= 0 && $b <= 0)) { // Green(13.0)
+                        $r = 0;
+                        $g = 255;
                         $b = 0;
                         $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 200 && $r <= 255) && ($g >= 0 && $g <= 60) && ($b >= 0 && $b <= 65)) { // Red(48.0)
+                        $detectCloud = true;
+                        $perArea[3] ++;
+                    } elseif (($r >= 0 && $r <= 0) && ($g >= 175 && $g <= 175) && ($b >= 0 && $b <= 0)) { // Green(18.0)
+                        $r = 0;
+                        $g = 175;
+                        $b = 0;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[4] ++;
+                    } elseif (($r >= 0 && $r <= 0) && ($g >= 150 && $g <= 150) && ($b >= 50 && $b <= 50)) { // Green(23.0)
+                        $r = 0;
+                        $g = 150;
+                        $b = 50;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[5] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 255 && $g <= 255) && ($b >= 0 && $b <= 0)) { // Yellow(28.0)
+                        $r = 255;
+                        $g = 255;
+                        $b = 0;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[6] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 200 && $g <= 200) && ($b >= 0 && $b <= 0)) { // Yellow(33.0)
+                        $r = 255;
+                        $g = 200;
+                        $b = 0;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[7] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 170 && $g <= 170) && ($b >= 0 && $b <= 0)) { // Orange(38.0)
+                        $r = 255;
+                        $g = 170;
+                        $b = 0;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[8] ++;
+                    } elseif (($r >= 225 && $r <= 255) && ($g >= 85 && $g <= 85) && ($b >= 0 && $b <= 0)) { // Orange(43.0)
+                        $r = 255;
+                        $g = 85;
+                        $b = 0;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[9] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 0 && $g <= 0) && ($b >= 0 && $b <= 0)) { // Red(48.0)
                         $r = 253;
                         $g = 0;
-                        $b = 3;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 190 && $r <= 255) && ($g >= 0 && $g <= 50) && ($b >= 60 && $b <= 130)) { // Magenta(53.0)
-                        $r = 255;
-                        $g = 0;
-                        $b = 104;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 210 && $r <= 255) && ($g >= 0 && $g <= 50) && ($b >= 210 && $b <= 255)) { // Purple(58.0)
-                        $r = 255;
-                        $g = 0;
                         $b = 0;
                         $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 200 && $r <= 255) && ($g >= 120 && $g <= 160) && ($b >= 230 && $b <= 255)) { // Purple(63.0)
-                        $r = 245;
-                        $g = 135;
-                        $b = 245;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 235 && $r <= 255) && ($g >= 190 && $g <= 230) && ($b >= 230 && $b <= 255)) { // Pink(68.0)
-                        $r = 248;
-                        $g = 205;
-                        $b = 248;
-                        $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 240 && $r <= 255) && ($g >= 195 && $g <= 235) && ($b >= 240 && $b <= 255)) { // Pink(73.0)
+                        $detectCloud = true;
+                        $perArea[10] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 0 && $g <= 0) && ($b >= 100 && $b <= 100)) { // Magenta(53.0)
                         $r = 255;
-                        $g = 230;
+                        $g = 0;
+                        $b = 100;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[11] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 0 && $g <= 0) && ($b >= 255 && $b <= 255)) { // Purple(58.0)
+                        $r = 255;
+                        $g = 0;
                         $b = 255;
                         $countAreaObj[$j][$i] = 1;
-                    } elseif (($r >= 240 && $r <= 255) && ($g >= 240 && $g <= 255) && ($b >= 240 && $b <= 255)) { // White(78.0)
+                        $detectCloud = true;
+                        $perArea[12] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 128 && $g <= 128) && ($b >= 255 && $b <= 255)) { // Purple(63.0)
+                        $r = 255;
+                        $g = 128;
+                        $b = 255;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[13] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 200 && $g <= 200) && ($b >= 255 && $b <= 255)) { // Pink(68.0)
+                        $r = 255;
+                        $g = 200;
+                        $b = 255;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[14] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 225 && $g <= 225) && ($b >= 255 && $b <= 255)) { // Pink(73.0)
+                        $r = 255;
+                        $g = 225;
+                        $b = 255;
+                        $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[15] ++;
+                    } elseif (($r >= 255 && $r <= 255) && ($g >= 255 && $g <= 255) && ($b >= 255 && $b <= 255)) { // White(78.0)
                         $r = 255;
                         $g = 255;
                         $b = 255;
                         $countAreaObj[$j][$i] = 1;
+                        $detectCloud = true;
+                        $perArea[16] ++;
                     } else {
                         $r = 100;
                         $g = 100;
@@ -185,14 +223,20 @@ class CloudDetection extends Command {
                 }
             }
 
+            $sizePixelArea = $sizeAreaX * $sizeAreaY;
+             for ($i=0; $i < 17; $i++) { 
+              $perArea[$i] = $perArea[$i] / $sizePixelArea;
+             } 
+//echo $detectCloud;
+//echo $sizePixelArea;
 // Connected Component Analysis & Object Counting
             $numObj = 1;
             $maxPixelX[0] = 0;
             $maxPixelY[0] = 0;
             $minPixelX[0] = $sizeAreaX;
             $minPixelY[0] = $sizeAreaY;
-            for ($i = 0; $i < $sizeAreaX; $i++) {
-                for ($j = 0; $j < $sizeAreaY; $j++) {
+            for ($i = 0; $i < $sizeAreaY; $i++) {
+                for ($j = 0; $j < $sizeAreaX; $j++) {
                     if ($i - 1 < 0) {
                         $topPx = 0;
                     } else {
@@ -354,11 +398,12 @@ class CloudDetection extends Command {
                 imagerectangle($interestAreaReal, $maxPixelY[$labelObj[$i]], $maxPixelX[$labelObj[$i]], $minPixelY[$labelObj[$i]], $minPixelX[$labelObj[$i]], $red);
             }
 
+
 // output image in the browser
 //            imagepng($interestAreaReal);
-            
+
             $save_path = public_path() . "\images\detect_image.png";
-            imagepng($interestAreaReal,$save_path);
+            imagepng($interestAreaReal, $save_path);
 // free memory
             imagedestroy($interestAreaReal);
         }
@@ -368,8 +413,10 @@ class CloudDetection extends Command {
         $save_path = public_path() . "\images\image.png";
         file_put_contents($save_path, $image);
         
-        findcloud();
+        $detectCloud = false;
+        $perArea = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
+        findcloud($detectCloud,$perArea);
         
     }
 
