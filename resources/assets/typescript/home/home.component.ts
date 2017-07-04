@@ -24,7 +24,14 @@ export class HomeComponent implements OnInit {
     constructor(private homeService: HomeService) { }
 
 	ngOnInit() {
-        this.getData();
+        this.syncData();
+		setInterval(() => {
+			this.syncData();
+		}, 60000);
+	}
+
+	syncData() {
+		this.getData();
 		this.drawRadarMap();
 	}
 
