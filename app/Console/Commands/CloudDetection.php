@@ -402,8 +402,17 @@ class CloudDetection extends Command {
 // output image in the browser
 //            imagepng($interestAreaReal);
 
-            $save_path = public_path() . "\images\detect_image.png";
-            imagepng($interestAreaReal, $save_path);
+            
+            
+            if(!$detectCloud){
+                $date = new \DateTime();
+                $result = $date->format('Y-m-d_H-i-s');
+                $save_path = public_path()."\\images\\radar\\interested\\" ."detect_image_".$result.".png";
+                
+                echo public_path();
+                imagepng($interestAreaReal, $save_path);
+            
+            }
 // free memory
             imagedestroy($interestAreaReal);
         }
@@ -417,6 +426,14 @@ class CloudDetection extends Command {
         $perArea = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
         findcloud($detectCloud,$perArea);
+        
+        if(!$detectCloud){
+                $date = new \DateTime();
+                $result = $date->format('Y-m-d_H-i-s');
+                $save_path = public_path()."\\images\\radar\\original\\" ."image_".$result.".png";
+                file_put_contents($save_path, $image);
+            
+        }
         
     }
 
