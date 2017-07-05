@@ -404,7 +404,7 @@ class CloudDetection extends Command {
 
             
             
-            if(!$detectCloud){
+            if($detectCloud){
                 $date = new \DateTime();
                 $result = $date->format('Y-m-d_H-i-s');
                 $save_path = public_path()."\\images\\radar\\interested\\" ."detect_image_".$result.".png";
@@ -427,7 +427,7 @@ class CloudDetection extends Command {
 
         findcloud($detectCloud,$perArea);
         
-        if(!$detectCloud){
+        if($detectCloud){
                 $date = new \DateTime();
                 $result = $date->format('Y-m-d_H-i-s');
                 $save_path = public_path()."\\images\\radar\\original\\" ."image_".$result.".png";
