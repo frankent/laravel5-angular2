@@ -4,4 +4,5 @@
 0       *       *       *       *       run-parts /etc/periodic/hourly
 0       2       *       *       *       run-parts /etc/periodic/daily
 0       3       *       *       6       run-parts /etc/periodic/weekly
-*/3       *       *       *       *       php7 /web/maengron/artisan sync:all
+*/3       *       *       *       *       php /web/maengron/artisan sync:all
+0,30       *       *       *       *       php /web/maengron/artisan detect:cloud

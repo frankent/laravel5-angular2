@@ -1,0 +1,36 @@
+FROM keittirat/nds-php7:latest
+RUN mkdir /web
+RUN mkdir /web/maengron
+
+COPY setup/crond.txt /var/spool/cron/crontabs/root
+COPY . /web/maengron
+RUN rm -rf /web/maengron/setup
+
+RUN apk update --no-cache
+RUN apk upgrade
+RUN apk add --no-cache \
+                make \
+                php7 \
+                php7-zlib \
+                php7-gd \
+                bash \
+                nodejs \
+                git \
+                python2 \
+                gcc \
+                g++
+
+RUN cd /web/maengron && npm install gulp -g && npm install
+RUN cd /web/maengron && gulp --production
+
+RUN apk del nodejs \
+            git \
+            python2 \
+            make \
+            gcc \
+            g++
+
+WORKDIR /web/maengron
+VOLUME /web/maengron
+        
+CMD ["php-fpm7", "-F"]

@@ -19,84 +19,84 @@ class Mailable implements MailableContract
      *
      * @var array
      */
-    protected $from = [];
+    public $from = [];
 
     /**
      * The "to" recipients of the message.
      *
      * @var array
      */
-    protected $to = [];
+    public $to = [];
 
     /**
      * The "cc" recipients of the message.
      *
      * @var array
      */
-    protected $cc = [];
+    public $cc = [];
 
     /**
      * The "bcc" recipients of the message.
      *
      * @var array
      */
-    protected $bcc = [];
+    public $bcc = [];
 
     /**
      * The "reply to" recipients of the message.
      *
      * @var array
      */
-    protected $replyTo = [];
+    public $replyTo = [];
 
     /**
      * The subject of the message.
      *
      * @var string
      */
-    protected $subject;
+    public $subject;
 
     /**
      * The view to use for the message.
      *
      * @var string
      */
-    protected $view;
+    public $view;
 
     /**
      * The plain text view to use for the message.
      *
      * @var string
      */
-    protected $textView;
+    public $textView;
 
     /**
      * The view data for the message.
      *
      * @var array
      */
-    protected $viewData = [];
+    public $viewData = [];
 
     /**
      * The attachments for the message.
      *
      * @var array
      */
-    protected $attachments = [];
+    public $attachments = [];
 
     /**
      * The raw attachments for the message.
      *
      * @var array
      */
-    protected $rawAttachments = [];
+    public $rawAttachments = [];
 
     /**
      * The callbacks for the message.
      *
      * @var array
      */
-    protected $callbacks = [];
+    public $callbacks = [];
 
     /**
      * Send the message using the given mailer.
@@ -185,12 +185,14 @@ class Mailable implements MailableContract
      *
      * @return array
      */
-    protected function buildViewData()
+    public function buildViewData()
     {
         $data = $this->viewData;
 
         foreach ((new ReflectionClass($this))->getProperties(ReflectionProperty::IS_PUBLIC) as $property) {
-            $data[$property->getName()] = $property->getValue($this);
+            if ($property->getDeclaringClass()->getName() != self::class) {
+                $data[$property->getName()] = $property->getValue($this);
+            }
         }
 
         return $data;
@@ -374,13 +376,32 @@ class Mailable implements MailableContract
 
         if ($address instanceof Collection || is_array($address)) {
             foreach ($address as $user) {
-                $this->{$property}($user->email, $user->name);
+                $user = $this->parseUser($user);
+
+                $this->{$property}($user->email, isset($user->name) ? $user->name : null);
             }
         } else {
             $this->{$property}[] = compact('address', 'name');
         }
 
         return $this;
+    }
+
+    /**
+     * Parse the given user into an object.
+     *
+     * @param  mixed  $user
+     * @return object
+     */
+    protected function parseUser($user)
+    {
+        if (is_array($user)) {
+            return (object) $user;
+        } elseif (is_string($user)) {
+            return (object) ['email' => $user];
+        }
+
+        return $user;
     }
 
     /**

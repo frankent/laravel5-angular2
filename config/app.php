@@ -157,6 +157,9 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
+        
+        //Image libary
+        Intervention\Image\ImageServiceProvider::class
 
     ],
 
@@ -204,6 +207,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
+        'Image' => Intervention\Image\Facades\Image::class
 
     ],
 
