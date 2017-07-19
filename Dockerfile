@@ -1,30 +1,22 @@
-FROM keittirat/nds-php7:latest
+FROM keittirat/nds-php7:debian-mongo-node
+ENV LANG en_GB.UTF-8
+
 RUN mkdir /web
 RUN mkdir /web/maengron
+WORKDIR /web/maengron
 
-COPY setup/crond.txt /var/spool/cron/crontabs/root
+COPY setup/crond.txt /etc/crontab
 COPY . /web/maengron
 RUN rm -rf /web/maengron/setup
 
-WORKDIR /web/maengron
+RUN npm install gulp -g
+RUN npm install
 
-RUN apk update --no-cache
-RUN apk upgrade
-RUN apk add --no-cache \
-                php7 \
-                php7-zlib \
-                php7-gd \
-                bash \
-                nodejs \
-                git \
-                python2
+RUN gulp --production
 
-RUN cd /web/maengron
-RUN npm install gulp -g && npm install && gulp --production
-RUN apk del nodejs \
-            git \
-            python2
+RUN npm prune --production
 
+RUN npm uninstall gulp -g && apt-get autoremove -y nodejs git python
 VOLUME /web/maengron
-        
-CMD ["php-fpm7", "-F"]
+
+CMD ["php-fpm","-F"]
