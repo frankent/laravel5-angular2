@@ -1,4 +1,4 @@
-FROM keittirat/nds-php7:debian-mongo-node
+FROM php:5-fpm
 ENV LANG en_GB.UTF-8
 
 RUN mkdir /web
@@ -9,12 +9,31 @@ COPY setup/crond.txt /etc/crontab
 COPY . /web/maengron
 RUN rm -rf /web/maengron/setup
 
-RUN npm install gulp -g
-RUN npm install
+RUN cd /tmp && curl -sL https://deb.nodesource.com/setup_6.x | bash -
 
-RUN gulp --production
+RUN docker-php-source extract && \
+    apt-get update && \
+    apt-get install -y \
+            libmagickwand-dev \
+            nodejs \
+            git \
+            cron \
+            gettext \
+            libmcrypt-dev \
+            python --no-install-recommends
 
-RUN npm prune --production
+RUN docker-php-ext-install \
+			mcrypt \
+			mysqli \
+			zip \
+			pdo_mysql \
+			gettext \
+			bz2 \
+			gd
+
+RUN pecl install imagick-beta && docker-php-ext-enable imagick
+
+RUN /web/maengron && npm install gulp -g && npm install && gulp --production && npm prune --production
 
 RUN npm uninstall gulp -g && apt-get autoremove -y nodejs git python
 VOLUME /web/maengron
