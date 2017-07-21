@@ -33,7 +33,7 @@ RUN docker-php-ext-install \
 
 RUN pecl install imagick-beta && docker-php-ext-enable imagick
 
-RUN /web/maengron && npm install gulp -g && npm install && gulp --production && npm prune --production
+RUN cd /web/maengron && npm install gulp -g && npm install && gulp --production && npm prune --production
 
 RUN npm uninstall gulp -g && apt-get autoremove -y nodejs git python
 VOLUME /web/maengron
