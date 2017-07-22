@@ -15,7 +15,6 @@ RUN docker-php-source extract
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y \
-            cron \
             libmagickwand-dev \
             nodejs \
             git \
