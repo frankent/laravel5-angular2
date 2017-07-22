@@ -1,4 +1,5 @@
-FROM php:5-fpm
+# FROM php:5-fpm
+FROM php:7.1.7-fpm
 ENV LANG en_GB.UTF-8
 
 RUN mkdir /web
@@ -15,12 +16,14 @@ RUN docker-php-source extract
 RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -y \
-            libmagickwand-dev \
             nodejs \
             git \
             gettext \
             libmcrypt-dev \
-            python --no-install-recommends
+            python
+
+RUN apt-get install -y  \
+            libmagickwand-dev --no-install-recommends
 
 RUN docker-php-ext-install \
 			mcrypt \
@@ -32,10 +35,10 @@ RUN docker-php-ext-install \
 			gd
 
 RUN pecl install imagick-beta && docker-php-ext-enable imagick
-
 RUN cd /web/maengron && npm install gulp -g && npm install && gulp --production && npm prune --production
-
 RUN npm uninstall gulp -g && apt-get autoremove -y nodejs git python
+RUN rm -rf /var/lib/apt/lists/*
+
 VOLUME /web/maengron
 
 CMD ["php-fpm","-F"]
