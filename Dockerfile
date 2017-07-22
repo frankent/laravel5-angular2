@@ -11,13 +11,14 @@ RUN rm -rf /web/maengron/setup
 
 RUN cd /tmp && curl -sL https://deb.nodesource.com/setup_6.x | bash -
 
-RUN docker-php-source extract && \
-    apt-get update && \
-    apt-get install -y \
+RUN docker-php-source extract
+RUN apt-get update
+RUN apt-get upgrade -y
+RUN apt-get install -y \
+            cron \
             libmagickwand-dev \
             nodejs \
             git \
-            cron \
             gettext \
             libmcrypt-dev \
             python --no-install-recommends
