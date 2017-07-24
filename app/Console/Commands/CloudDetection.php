@@ -62,12 +62,12 @@ class CloudDetection extends Command {
 
             if ($type != IMAGETYPE_GIF) {
                 //echo 'The picture is  a png';
-                $img_path = public_path() . "/images/image.png";
+                $img_path = public_path() . "/images/radar/raws/image.png";
                 $img = imagecreatefrompng($img_path);
                 $typeImg = 0;
             } else {
                 //echo 'The picture is  a gif';
-                $img_path = public_path() . "/images/image.gif";
+                $img_path = public_path() . "/images/radar/raws/image.gif";
                 $img = imagecreatefromgif($img_path);
                 $typeImg = 1;
             }
@@ -448,12 +448,12 @@ class CloudDetection extends Command {
 
             if ($type != IMAGETYPE_GIF) {
                 //echo 'The picture is  a png';
-                $img_path = public_path() . "/images/image.png";
+                $img_path = public_path() . "/images/radar/raws/image.png";
                 $img = imagecreatefrompng($img_path);
                 $typeImg = 0;
             } else {
                 //echo 'The picture is  a gif';
-                $img_path = public_path() . "/images/image.gif";
+                $img_path = public_path() . "/images/radar/raws/image.gif";
                 $img = imagecreatefromgif($img_path);
                 $typeImg = 1;
             }
@@ -834,7 +834,7 @@ class CloudDetection extends Command {
 
         $imgurl_png = 'http://weather.tmd.go.th/omk/omk240_latest.png';
         $image_png = getimg($imgurl_png);
-        $save_path_png = public_path() . "/images/image.png";
+        $save_path_png = public_path() . "/images/radar/raws/image.png";
         file_put_contents($save_path_png, $image_png);
 
         $detectCloud_png = false;
@@ -852,7 +852,7 @@ class CloudDetection extends Command {
 
         $imgurl_gif = 'http://tiwrm.haii.or.th/TyphoonTracking/rainMaker/OKI/rm_OKI_lastest.gif';
         $image_gif = getimg($imgurl_gif);
-        $save_path_gif = public_path() . "/images/image.gif";
+        $save_path_gif = public_path() . "/images/radar/raws/image.gif";
         file_put_contents($save_path_gif, $image_gif);
 
         $detectCloud_gif = false;
