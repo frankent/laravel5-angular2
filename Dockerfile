@@ -17,7 +17,6 @@ RUN apt-get update
 RUN apt-get upgrade -y
 RUN apt-get install -o Dpkg::Options::="--force-confold" --force-yes -y cron
 RUN apt-get install -y git \
-            cron \
             gettext \
             python \
             nodejs
