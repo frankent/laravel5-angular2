@@ -62,12 +62,12 @@ class CloudDetection extends Command {
 
             if ($type != IMAGETYPE_GIF) {
                 //echo 'The picture is  a png';
-                $img_path = public_path() . "\images\image.png";
+                $img_path = public_path() . "/images/image.png";
                 $img = imagecreatefrompng($img_path);
                 $typeImg = 0;
             } else {
                 //echo 'The picture is  a gif';
-                $img_path = public_path() . "\images\image.gif";
+                $img_path = public_path() . "/images/image.gif";
                 $img = imagecreatefromgif($img_path);
                 $typeImg = 1;
             }
@@ -429,13 +429,13 @@ class CloudDetection extends Command {
 
                 $date = new \DateTime();
                 $result = $date->format('Y-m-d_H-i-s');
-                $save_path = public_path() . "\\images\\radar\\interested\\" . "detect_image_" . $result . ".png";
+                $save_path = public_path() . "/images/radar/interested/" . "detect_image_" . $result . ".png";
 
                 if ($typeImg == 0) {
-                    $save_path = public_path() . "\\images\\radar\\interested\\" . "detect_image_" . $result . ".png";
+                    $save_path = public_path() . "/images/radar/interested/" . "detect_image_" . $result . ".png";
                     imagepng($interestAreaReal, $save_path);
                 } else {
-                    $save_path = public_path() . "\\images\\radar\\interested\\" . "detect_image_" . $result . ".gif";
+                    $save_path = public_path() . "/images/radar/interested/" . "detect_image_" . $result . ".gif";
                     imagegif($interestAreaReal, $save_path);
                 }
             }
@@ -448,12 +448,12 @@ class CloudDetection extends Command {
 
             if ($type != IMAGETYPE_GIF) {
                 //echo 'The picture is  a png';
-                $img_path = public_path() . "\images\image.png";
+                $img_path = public_path() . "/images/image.png";
                 $img = imagecreatefrompng($img_path);
                 $typeImg = 0;
             } else {
                 //echo 'The picture is  a gif';
-                $img_path = public_path() . "\images\image.gif";
+                $img_path = public_path() . "/images/image.gif";
                 $img = imagecreatefromgif($img_path);
                 $typeImg = 1;
             }
@@ -813,13 +813,13 @@ class CloudDetection extends Command {
 
                 $date = new \DateTime();
                 $result = $date->format('Y-m-d_H-i-s');
-                $save_path = public_path() . "\\images\\radar\\interested\\" . "detect_image_" . $result . ".png";
+                $save_path = public_path() . "/images/radar/interested/" . "detect_image_" . $result . ".png";
 
                 if ($typeImg == 0) {
-                    $save_path = public_path() . "\\images\\radar\\interested\\" . "detect_image_" . $result . ".png";
+                    $save_path = public_path() . "/images/radar/interested/" . "detect_image_" . $result . ".png";
                     imagepng($interestAreaReal, $save_path);
                 } else {
-                    $save_path = public_path() . "\\images\\radar\\interested\\" . "detect_image_" . $result . ".gif";
+                    $save_path = public_path() . "/images/radar/interested/" . "detect_image_" . $result . ".gif";
                     imagegif($interestAreaReal, $save_path);
                 }
             }
@@ -834,7 +834,7 @@ class CloudDetection extends Command {
 
         $imgurl_png = 'http://weather.tmd.go.th/omk/omk240_latest.png';
         $image_png = getimg($imgurl_png);
-        $save_path_png = public_path() . "\images\image.png";
+        $save_path_png = public_path() . "/images/image.png";
         file_put_contents($save_path_png, $image_png);
 
         $detectCloud_png = false;
@@ -844,7 +844,7 @@ class CloudDetection extends Command {
 
         if ($detectCloud_png) {
 
-            $save_path_png = public_path() . "\\images\\radar\\original\\" . "image_" . $result . ".png";
+            $save_path_png = public_path() . "/images/radar/original/" . "image_" . $result . ".png";
             file_put_contents($save_path_png, $image_png);
         }
 
@@ -852,7 +852,7 @@ class CloudDetection extends Command {
 
         $imgurl_gif = 'http://tiwrm.haii.or.th/TyphoonTracking/rainMaker/OKI/rm_OKI_lastest.gif';
         $image_gif = getimg($imgurl_gif);
-        $save_path_gif = public_path() . "\images\image.gif";
+        $save_path_gif = public_path() . "/images/image.gif";
         file_put_contents($save_path_gif, $image_gif);
 
         $detectCloud_gif = false;
@@ -862,7 +862,7 @@ class CloudDetection extends Command {
 
         if ($detectCloud_gif) {
 
-            $save_path_gif = public_path() . "\\images\\radar\\original\\" . "image_" . $result . ".gif";
+            $save_path_gif = public_path() . "/images/radar/original/" . "image_" . $result . ".gif";
             file_put_contents($save_path_gif, $image_gif);
         }
     }
