@@ -42,7 +42,7 @@ RUN npm uninstall gulp -g && apt-get autoremove -y nodejs git python
 RUN rm -rf /var/lib/apt/lists/*
 
 COPY setup/crond.txt /var/spool/cron/crontabs/root
-RUN chmod 644 /var/spool/cron/crontabs/root
+RUN chmod 755 /var/spool/cron/crontabs/root
 RUN crontab /var/spool/cron/crontabs/root
 
 VOLUME /web/maengron
