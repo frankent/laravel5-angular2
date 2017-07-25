@@ -43,7 +43,7 @@ RUN rm -rf /var/lib/apt/lists/*
 
 COPY setup/crond.txt /var/spool/cron/crontabs/root
 RUN chmod 644 /var/spool/cron/crontabs/root
-# RUN crontab /etc/crontab
+RUN crontab /var/spool/cron/crontabs/root
 
 VOLUME /web/maengron
 
