@@ -41,6 +41,7 @@ RUN apt-get install -y git \
 RUN cd /web/maengron && npm install gulp -g && npm install && gulp --production && npm prune --production
 RUN npm uninstall gulp -g && apt-get autoremove -y nodejs git python
 RUN rm -rf /var/lib/apt/lists/*
+RUN crontab /etc/crontab
 
 VOLUME /web/maengron
 
