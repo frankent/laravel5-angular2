@@ -1,2 +1,2 @@
-*/3 * * * * php /web/maengron/artisan sync:all
-0,30 * * * * php /web/maengron/artisan detect:cloud
+*/3 * * * * /usr/local/bin/php /web/maengron/artisan sync:all > /temp/sync.log
+0,30 * * * * /usr/local/bin/php /web/maengron/artisan detect:cloud
