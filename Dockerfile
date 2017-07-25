@@ -6,7 +6,6 @@ RUN mkdir /web
 RUN mkdir /web/maengron
 WORKDIR /web/maengron
 
-COPY setup/crond.txt /etc/crontab
 COPY . /web/maengron
 RUN rm -rf /web/maengron/setup
 
@@ -41,6 +40,9 @@ RUN apt-get install -y git \
 RUN cd /web/maengron && npm install gulp -g && npm install && gulp --production && npm prune --production
 RUN npm uninstall gulp -g && apt-get autoremove -y nodejs git python
 RUN rm -rf /var/lib/apt/lists/*
+
+COPY setup/crond.txt /etc/crontab
+RUN chmod 644 /etc/crontab
 RUN crontab /etc/crontab
 
 VOLUME /web/maengron
