@@ -60,12 +60,12 @@ class CloudDetection extends Command {
         function findcloud_png(&$detectCloud, &$perArea, $type) {
 
 
-            if ($type != IMAGETYPE_GIF) {
+            if ($type == IMAGETYPE_PNG) {
                 //echo 'The picture is  a png';
                 $img_path = public_path() . "/images/radar/raws/image.png";
                 $img = imagecreatefrompng($img_path);
                 $typeImg = 0;
-            } else {
+            } else if ($type == IMAGETYPE_GIF) {
                 //echo 'The picture is  a gif';
                 $img_path = public_path() . "/images/radar/raws/image.gif";
                 $img = imagecreatefromgif($img_path);
@@ -446,12 +446,12 @@ class CloudDetection extends Command {
         function findcloud_gif(&$detectCloud, &$perArea, $type) {
 
 
-            if ($type != IMAGETYPE_GIF) {
+            if ($type == IMAGETYPE_PNG) {
                 //echo 'The picture is  a png';
                 $img_path = public_path() . "/images/radar/raws/image.png";
                 $img = imagecreatefrompng($img_path);
                 $typeImg = 0;
-            } else {
+            } else if ($type == IMAGETYPE_GIF) {
                 //echo 'The picture is  a gif';
                 $img_path = public_path() . "/images/radar/raws/image.gif";
                 $img = imagecreatefromgif($img_path);
@@ -836,16 +836,21 @@ class CloudDetection extends Command {
         $image_png = getimg($imgurl_png);
         $save_path_png = public_path() . "/images/radar/raws/image.png";
         file_put_contents($save_path_png, $image_png);
+        $this->info($result.":weather.tmd.go.th:imagetype".exif_imagetype($save_path_png));
+        if (exif_imagetype($save_path_png) == IMAGETYPE_PNG) {
+            
 
-        $detectCloud_png = false;
-        $perArea_png = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            $detectCloud_png = false;
+            $perArea_png = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-        findcloud_png($detectCloud_png, $perArea_png, IMAGETYPE_PNG);
 
-        if ($detectCloud_png) {
+            findcloud_png($detectCloud_png, $perArea_png, IMAGETYPE_PNG);
 
-            $save_path_png = public_path() . "/images/radar/original/" . "image_" . $result . ".png";
-            file_put_contents($save_path_png, $image_png);
+            if ($detectCloud_png) {
+
+                $save_path_png = public_path() . "/images/radar/original/" . "image_" . $result . ".png";
+                file_put_contents($save_path_png, $image_png);
+            }
         }
 
         //detect cloud from image type gif
@@ -854,17 +859,23 @@ class CloudDetection extends Command {
         $image_gif = getimg($imgurl_gif);
         $save_path_gif = public_path() . "/images/radar/raws/image.gif";
         file_put_contents($save_path_gif, $image_gif);
+        $this->info($result.":tiwrm.haii.or.th:imagetype".exif_imagetype($save_path_gif));
+        if (exif_imagetype($save_path_gif) == IMAGETYPE_GIF) {
+            
 
-        $detectCloud_gif = false;
-        $perArea_gif = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            $detectCloud_gif = false;
+            $perArea_gif = array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
-        findcloud_gif($detectCloud_gif, $perArea_gif, IMAGETYPE_GIF);
+            findcloud_gif($detectCloud_gif, $perArea_gif, IMAGETYPE_GIF);
 
-        if ($detectCloud_gif) {
+            if ($detectCloud_gif) {
 
-            $save_path_gif = public_path() . "/images/radar/original/" . "image_" . $result . ".gif";
-            file_put_contents($save_path_gif, $image_gif);
+                $save_path_gif = public_path() . "/images/radar/original/" . "image_" . $result . ".gif";
+                file_put_contents($save_path_gif, $image_gif);
+            }
         }
+        
+        
     }
 
 }
